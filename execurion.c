@@ -83,7 +83,7 @@ int hsh_execute(char **args)
 		"exit",
 		"env"
 	};
-	int (*builtin_func[]) (char *) = {
+	int (*builtin_func[]) (char **) = {
 		&hsh_cd,
 		&hsh_exit,
 		&hsh_env

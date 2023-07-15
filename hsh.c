@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	FILE *input_file;
 	char *line = NULL, **args;
 	size_t bufsize = 0;
-	int status;
+	int status = 0;
 
 	(void)argc;
 	(void)argv;
@@ -36,7 +36,10 @@ int main(int argc, char **argv)
 		free(line);
 	}
 
-	return (status);
+	if (status == 127)
+		return (127);
+	else
+		return (EXIT_SUCCESS);
 }
 
 /**
