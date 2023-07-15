@@ -56,7 +56,6 @@ int hsh_exit(char **args)
 int hsh_env(char **args)
 {
 	int i = 0;
-	extern char **environ;
 
 	(void)args;
 	while (environ[i] != NULL)

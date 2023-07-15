@@ -10,6 +10,8 @@
 #define TOK_BUFSIZE 64
 #define TOK_DELIMETER " \t\r\n\a"
 
+extern char **environ;
+
 int hsh_cd(char **args);
 int hsh_exit(char **args);
 int hsh_env(char **args);
