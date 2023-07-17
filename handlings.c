@@ -66,7 +66,6 @@ char **hsh_parse_line(char *line)
 	return (tokens);
 }
 
-
 /**
  * hsh_get_path_directories - Get an array of directories in
  * the PATH environment variable
@@ -118,9 +117,9 @@ char **hsh_get_path_directories()
  */
 int hsh_launch(char **args)
 {
-	char *envp[] = {NULL}, **directories, *path;
+	char *envp[] = {NULL}, **directories;
 	pid_t pid;
-	int status, i = 0;
+	int status, i = 0, done;
 
 	pid = fork();
 	if (pid == 0)
@@ -130,26 +129,14 @@ int hsh_launch(char **args)
 			directories = hsh_get_path_directories();
 			while (directories[i] != NULL)
 			{
-				path = malloc(strlen(directories[i]) + strlen(args[0]) + 2);
-				if (!path)
-				{
-					fprintf(stderr, "Allocation error\n");
-					exit(EXIT_FAILURE);
-				}
-				sprintf(path, "%s/%s", directories[i], args[0]);
-				if (execve(path, args, envp) == 0)
-				{
-					free(path);
-					free(directories);
-					exit(EXIT_SUCCESS);
-				}
-				free(path);
+				excution(directories[i], args);
 				i++;
 			}
 			free(directories);
 			exit(127);
 		}
-	} else if (pid < 0)
+	}
+	else if (pid < 0)
 		perror("hsh");
 	else
 	{
@@ -161,4 +148,26 @@ int hsh_launch(char **args)
 		}
 	}
 	return (1);
+}
+/**
+ * excution - execute the command
+ * @directories: The directories of the command
+ * @args: The arguments of the command
+ */
+void excution(char *directories, char **args)
+{
+	char *path, *envp[] = {NULL};
+
+	path = malloc(strlen(directories) + strlen(args[0]) + 2);
+	if (!path)
+	{
+		fprintf(stderr, "Allocation error\n");
+		exit(EXIT_FAILURE);
+	}
+	sprintf(path, "%s/%s", directories, args[0]);
+	if (execve(path, args, envp) == 0)
+	{
+		free(path);
+		exit(EXIT_SUCCESS);
+	}
 }
