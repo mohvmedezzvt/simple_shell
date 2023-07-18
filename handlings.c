@@ -68,10 +68,10 @@ char **hsh_parse_line(char *line)
 char **hsh_get_path_directories()
 {
 	char *path, *token, **directories;
-	int bufsize = TOK_BUFSIZE, i = 0;
+	int i = 0;
 
 	path = getenv("PATH");
-	directories = malloc(bufsize * sizeof(char *));
+	directories = malloc(strlen(path) * sizeof(char *));
 	if (!directories)
 	{
 		fprintf(stderr, "Allocation error\n");
@@ -81,23 +81,16 @@ char **hsh_get_path_directories()
 	token = strtok(path, ":");
 	while (token != NULL)
 	{
-		directories[i] = token;
-		i++;
-
-		if (i >= bufsize)
+		directories[i] = malloc(strlen(token) * sizeof(char));
+		if (!directories[i])
 		{
-			bufsize += TOK_BUFSIZE;
-			directories = realloc(directories, bufsize * sizeof(char *));
-			if (!directories)
-			{
-				fprintf(stderr, "Allocation error\n");
-				exit(EXIT_FAILURE);
-			}
+			fprintf(stderr, "Allocation error\n");
+			exit(EXIT_FAILURE);
 		}
-
+		strcpy(directories[i], token);
+		i++;
 		token = strtok(NULL, ":");
 	}
-
 	directories[i] = NULL;
 	return (directories);
 }
