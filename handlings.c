@@ -33,32 +33,25 @@ char *hsh_read_line(void)
 char **hsh_parse_line(char *line)
 {
 	char **tokens, *token;
-	int bufsize = TOK_BUFSIZE, i = 0;
+	int i = 0;
 
-	tokens = malloc(bufsize * sizeof(char *));
+	tokens = malloc(strlen(line) * sizeof(char *));
 	if (tokens == NULL)
 	{
 		fprintf(stderr, "Allocation error\n");
 		exit(EXIT_FAILURE);
 	}
-
 	token = strtok(line, TOK_DELIMETER);
 	while (token != NULL)
 	{
-		tokens[i] = token;
-		i++;
-
-		if (i >= bufsize)
+		tokens[i] = malloc(strlen(token) * sizeof(char));
+		if (tokens[i] == NULL)
 		{
-			bufsize += TOK_BUFSIZE;
-			tokens = realloc(tokens, bufsize * sizeof(char *));
-			if (tokens == NULL)
-			{
-				fprintf(stderr, "Allocation error\n");
-				exit(EXIT_FAILURE);
-			}
+			fprintf(stderr, "Allocation error\n");
+			exit(EXIT_FAILURE);
 		}
-
+		strcpy(tokens[i], token);
+		i++;
 		token = strtok(NULL, TOK_DELIMETER);
 	}
 
