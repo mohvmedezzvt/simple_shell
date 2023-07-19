@@ -94,13 +94,64 @@ char **hsh_get_path_directories()
 	directories[i] = NULL;
 	return (directories);
 }
+/**
+ * hsh_launch - Launch a process and execute a command
+ * @args: The arguments of the command
+ * Return: Always returns 1
+*/
+int hsh_launch(char **args)
+{
+	char *envp[] = {NULL}, **directories, *path;
+	pid_t pid;
+	int status, i = 0;
 
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(args[0], args, envp) == -1)
+		{
+			directories = hsh_get_path_directories();
+			while (directories[i] != NULL)
+			{
+				printf("%s\n", directories[i]);
+				path = malloc(strlen(directories[i]) + strlen(args[0]) + 2);
+				if (!path)
+				{
+					fprintf(stderr, "Allocation error\n");
+					exit(EXIT_FAILURE);
+				}
+				sprintf(path, "%s/%s", directories[i], args[0]);
+				if (execve(path, args, envp) == 0)
+				{
+					free(path);
+					free(directories);
+					exit(EXIT_SUCCESS);
+				}
+				free(path);
+				i++;
+			}
+			free(directories);
+			exit(127);
+		}
+	} else if (pid < 0)
+		perror("hsh");
+	else
+	{
+		waitpid(pid, &status, WUNTRACED);
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 127)
+		{
+			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+			return (127);
+		}
+	}
+	return (1);
+}
 /**
  * hsh_launch - Launch a process and execute a command
  * @args: The arguments of the command
  *
  * Return: Always returns 1
- */
+ 
 int hsh_launch(char **args)
 {
 	char *envp[] = {NULL}, **directories;
@@ -139,7 +190,7 @@ int hsh_launch(char **args)
  * excution - execute the command
  * @directories: The directories of the command
  * @args: The arguments of the command
- */
+ 
 void excution(char *directories, char **args)
 {
 	char *path, *envp[] = {NULL};
@@ -157,3 +208,4 @@ void excution(char *directories, char **args)
 		exit(EXIT_SUCCESS);
 	}
 }
+*/
