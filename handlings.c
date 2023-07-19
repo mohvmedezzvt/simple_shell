@@ -113,7 +113,6 @@ int hsh_launch(char **args)
 			directories = hsh_get_path_directories();
 			while (directories[i] != NULL)
 			{
-				printf("%s\n", directories[i]);
 				path = malloc(strlen(directories[i]) + strlen(args[0]) + 2);
 				if (!path)
 				{
