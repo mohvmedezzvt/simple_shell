@@ -1,0 +1,7 @@
+ls
+/bin/ls
+/bin/ls -l
+/bin/ls -l /tmp
+/bin/ls -l /tmp/
+/bin/ls -l /tmp/ | /bin/grep -v /tmp/ | /bin/grep -v total
+

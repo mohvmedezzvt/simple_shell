@@ -120,7 +120,7 @@ int hsh_launch(char **args)
 					exit(EXIT_FAILURE);
 				}
 				sprintf(path, "%s/%s", directories[i], args[0]);
-				if (execve(path, args, envp) == 0)
+				if (execve(path, args, environ) == 0)
 				{
 					free(path);
 					free(directories);
