@@ -98,7 +98,7 @@ char **hsh_get_path_directories()
  * hsh_launch - Launch a process and execute a command
  * @args: The arguments of the command
  * Return: Always returns 1
-*/
+
 int hsh_launch(char **args)
 {
 	char *envp[] = {NULL}, **directories, *path;
@@ -145,12 +145,13 @@ int hsh_launch(char **args)
 	}
 	return (1);
 }
+ */
 /**
  * hsh_launch - Launch a process and execute a command
  * @args: The arguments of the command
  *
  * Return: Always returns 1
- 
+ */
 int hsh_launch(char **args)
 {
 	char *envp[] = {NULL}, **directories;
@@ -189,7 +190,7 @@ int hsh_launch(char **args)
  * excution - execute the command
  * @directories: The directories of the command
  * @args: The arguments of the command
- 
+ */
 void excution(char *directories, char **args)
 {
 	char *path, *envp[] = {NULL};
@@ -201,10 +202,9 @@ void excution(char *directories, char **args)
 		exit(EXIT_FAILURE);
 	}
 	sprintf(path, "%s/%s", directories, args[0]);
-	if (execve(path, args, envp) == 0)
+	if (execve(path, args, environ) == 0)
 	{
 		free(path);
 		exit(EXIT_SUCCESS);
 	}
 }
-*/
