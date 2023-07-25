@@ -25,10 +25,7 @@ int hsh_num_builtins(void)
 int hsh_cd(char **args)
 {
 	if (args[1] == NULL)
-	{
-		if (chdir(getenv("HOME")) != 0)
-			perror("hsh");
-	}
+		fprintf(stderr, "hsh: expected argument to \"cd\"\n");
 	else
 	{
 		if (chdir(args[1]) != 0)
