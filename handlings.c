@@ -156,7 +156,7 @@ int hsh_launch(char **args)
 {
 	char *envp[] = {NULL}, **directories;
 	pid_t pid;
-	int status, i = 0, done;
+	int status, i = 0;
 
 	pid = fork();
 	if (pid == 0)
@@ -193,7 +193,7 @@ int hsh_launch(char **args)
  */
 void excution(char *directories, char **args)
 {
-	char *path, *envp[] = {NULL};
+	char *path;
 
 	path = malloc(strlen(directories) + strlen(args[0]) + 2);
 	if (!path)
