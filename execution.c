@@ -24,12 +24,49 @@ int hsh_num_builtins(void)
  */
 int hsh_cd(char **args)
 {
-	if (args[1] == NULL)
-		fprintf(stderr, "hsh: expected argument to \"cd\"\n");
-	else
+	char *home;
+	char *old;
+	char current[PATH_MAX];
+
+	if (args[1] == NULL || strcmp(args[1], "~") == 0)
 	{
-		if (chdir(args[1]) != 0)
-			perror("hsh");
+		home = getenv("HOME");
+		if (!home)
+		{
+			fprintf(stderr, "cd: %s\n", "HOME not set");
+			return (1);
+		}
+		if (chdir(home) == -1)
+			perror("cd");
+	} else if (strcmp(args[1], "-") == 0)
+	{
+		old = getenv("OLDPWD");
+		if (!old)
+		{
+			fprintf(stderr, "cd: OLDPWD not set\n");
+			return (1);
+		}
+		if (chdir(old) == -1)
+			perror("cd");
+	} else
+	{
+		if (chdir(args[1]) == -1)
+		{
+			perror("cd");
+			return (1);
+		}
+	}
+
+	if (getcwd(current, PATH_MAX) == NULL)
+	{
+		perror("getcwd");
+		return (1);
+	}
+
+	if (setenv("PWD", current, 1) == -1)
+	{
+		perror("setenv");
+		return (1);
 	}
 
 	return (1);
