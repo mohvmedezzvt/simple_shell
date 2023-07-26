@@ -53,22 +53,16 @@ int hsh_cd(char **args)
 		if (chdir(args[1]) == -1)
 		{
 			perror("cd");
-			return (1);
 		}
 	}
-
 	if (getcwd(current, PATH_MAX) == NULL)
 	{
 		perror("getcwd");
-		return (1);
 	}
-
 	if (setenv("PWD", current, 1) == -1)
 	{
 		perror("setenv");
-		return (1);
 	}
-
 	return (1);
 }
 
