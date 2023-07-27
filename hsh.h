@@ -16,6 +16,8 @@ extern char **environ;
 int hsh_cd(char **args);
 int hsh_exit(char **args);
 int hsh_env(char **args);
+int hsh_setenv(char **args);
+int hsh_unsetenv(char **args);
 char *hsh_get_PATH(char *name);
 
 void hsh_loop(void);
