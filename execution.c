@@ -80,7 +80,12 @@ int hsh_cd(char **args)
  */
 int hsh_exit(char **args)
 {
-	(void)args;
+	int exit_status = 0;
+
+	if (args[1] != NULL)
+		exit_status = atoi(args[1]);
+
+	exit(exit_status);
 	return (0);
 }
 
