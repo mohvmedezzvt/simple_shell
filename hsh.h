@@ -25,5 +25,6 @@ char **hsh_get_path_directories();
 int hsh_launch(char **args);
 int hsh_num_builtins(void);
 int hsh_execute(char **args);
+void excution(char *directories, char **args);
 
 #endif /* HSH_H */
