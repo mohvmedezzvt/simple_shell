@@ -40,8 +40,10 @@ int main(int argc, char **argv)
 
 	if (status == 127)
 		return (127);
+	else if (status == 0 && prev_status != 0)
+		return (prev_status);
 	else
-		return (prev_status + 1);
+		return (status);
 }
 
 /**
