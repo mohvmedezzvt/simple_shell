@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	FILE *input_file;
 	char *line = NULL, **args;
 	size_t bufsize = 0;
-	int status = 0 , prev_status = 0;
+	int status = 0;
 
 	(void)argc;
 	(void)argv;
@@ -27,8 +27,6 @@ int main(int argc, char **argv)
 			line[strcspn(line, "\n")] = '\0';
 			args = hsh_parse_line(line);
 			status = hsh_execute(args);
-			if (status != 0)
-				prev_status = status;
 
 			free(args);
 			if (status == 0)
@@ -38,13 +36,9 @@ int main(int argc, char **argv)
 		free(line);
 	}
 
-	if (status == 127)
-		return (127);
-	else if (status == 0 && prev_status != 0)
-		return (prev_status);
-	else
-		return (status);
+	return (status);
 }
+
 
 /**
  * hsh_loop - Run the shell program in interactive mode

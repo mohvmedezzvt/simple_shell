@@ -53,37 +53,13 @@ int hsh_cd(char **args)
 /**
  * hsh_exit - Exit the simple shell program
  * @args: The arguments passed to the exit command
- *
+ * 
  * Return: Always returns 0
  */
 int hsh_exit(char **args)
 {
-	int exit_status = 0;
-	char *c;
-
-	if (args[1] != NULL)
-	{
-		for (c = args[1]; *c != '\0'; c++)
-		{
-			if (!isdigit(*c))
-			{
-				fprintf(stderr, "./hsh: 1: exit: Illegal number: %s\n", args[1]);
-				exit(2);
-				return (2);
-			}
-		}
-
-		exit_status = atoi(args[1]);
-		if (exit_status < 0)
-		{
-			fprintf(stderr, "./hsh: 1: exit: Illegal number: %s\n", args[1]);
-			exit(2);
-			return (2);
-		}
-	}
-
-	exit(exit_status);
-	return (exit_status);
+	(void)args;
+	return (0);
 }
 
 /**
