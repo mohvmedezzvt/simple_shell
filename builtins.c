@@ -24,7 +24,7 @@ int hsh_cd(char **args)
 			getcwd(current, PATH_MAX);
 			write(STDOUT_FILENO, current, strlen(current));
 			write(STDOUT_FILENO, "\n", 1);
-
+			free(args[1]);
 		}
 	}
 	else
@@ -38,6 +38,10 @@ int hsh_cd(char **args)
 		setenv("OLDPWD", getenv("PWD"), 1);
 		setenv("PWD", current, 1);
 	}
+	free(args[0]);
+	free(args[1]);
+	free(args);
+	free(current);
 	return (1);
 }
 
