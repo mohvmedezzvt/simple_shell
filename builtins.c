@@ -24,14 +24,12 @@ int hsh_cd(char **args)
 			getcwd(current, PATH_MAX);
 			write(STDOUT_FILENO, current, strlen(current));
 			write(STDOUT_FILENO, "\n", 1);
-			free(args[1]);
 		}
 	}
 	else
 	{
 		value = chdir(args[1]);
 	}
-
 	if (value != -1)
 	{
 		getcwd(current, PATH_MAX);
@@ -40,8 +38,6 @@ int hsh_cd(char **args)
 	}
 	free(args[0]);
 	free(args[1]);
-	free(args);
-	free(current);
 	return (1);
 }
 
