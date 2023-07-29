@@ -59,7 +59,7 @@ int hsh_cd(char **args)
 int hsh_exit(char **args)
 {
 	(void)args;
-	return (1);
+	return (0);
 }
 
 /**
