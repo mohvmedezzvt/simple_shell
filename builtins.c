@@ -8,37 +8,36 @@
  */
 int hsh_cd(char **args)
 {
-	char *home;
-	char *old;
+
 	char current[PATH_MAX];
+	int value = -1;
 
 	if (args[1] == NULL || strcmp(args[1], "~") == 0)
 	{
-		home = getenv("HOME");
-		if (!home)
-			return (1);
-		if (chdir(home) == -1)
-			perror("cd");
+		value = chdir(getenv("HOME"));
 	}
 	else if (strcmp(args[1], "-") == 0)
 	{
-		old = getenv("OLDPWD");
-		if (!old)
-			old = getenv("PWD");
-		if (chdir(old) == -1)
-			perror("cd");
+		value = chdir(getenv("OLDPWD"));
+		if (value == -1)
+		{
+			getcwd(current, PATH_MAX);
+			write(STDOUT_FILENO, current, strlen(current));
+			write(STDOUT_FILENO, "\n", 1);
+
+		}
 	}
 	else
 	{
-		if (chdir(args[1]) == -1)
-			perror("cd");
+		value = chdir(args[1]);
 	}
-	if (getcwd(current, PATH_MAX) == NULL)
-		perror("getcwd");
-	if (setenv("OLDPWD", getenv("PWD"), 1) == -1)
-		perror("setenv");
-	if (setenv("PWD", current, 1) == -1)
-		perror("setenv");
+
+	if (value != -1)
+	{
+		getcwd(current, PATH_MAX);
+		setenv("OLDPWD", getenv("PWD"), 1);
+		setenv("PWD", current, 1);
+	}
 	return (1);
 }
 
