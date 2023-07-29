@@ -16,44 +16,36 @@ int hsh_cd(char **args)
 	{
 		home = getenv("HOME");
 		if (!home)
-		{
-			fprintf(stderr, "cd: %s\n", "HOME not set");
 			return (1);
-		}
 		if (chdir(home) == -1)
 			perror("cd");
-	} else if (strcmp(args[1], "-") == 0)
+	}
+	else if (strcmp(args[1], "-") == 0)
 	{
 		old = getenv("OLDPWD");
 		if (!old)
-		{
-			fprintf(stderr, "cd: OLDPWD not set\n");
-			return (1);
-		}
+			old = getenv("PWD");
 		if (chdir(old) == -1)
 			perror("cd");
-	} else
+	}
+	else
 	{
 		if (chdir(args[1]) == -1)
-		{
 			perror("cd");
-		}
 	}
 	if (getcwd(current, PATH_MAX) == NULL)
-	{
 		perror("getcwd");
-	}
-	if (setenv("PWD", current, 1) == -1)
-	{
+	if (setenv("OLDPWD", getenv("PWD"), 1) == -1)
 		perror("setenv");
-	}
+	if (setenv("PWD", current, 1) == -1)
+		perror("setenv");
 	return (1);
 }
 
 /**
  * hsh_exit - Exit the simple shell program
  * @args: The arguments passed to the exit command
- * 
+ *
  * Return: Always returns 0
  */
 int hsh_exit(char **args)
