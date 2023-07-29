@@ -33,10 +33,13 @@ int main(int argc, char **argv)
 				break;
 		}
 
+
 		free(line);
 	}
-
-	return (status);
+	if (status == 127)
+		return (127);
+	else
+		return (EXIT_SUCCESS);
 }
 
 
